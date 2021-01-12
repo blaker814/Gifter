@@ -2,6 +2,7 @@
 using Gifter.Data;
 using Gifter.Repositories;
 using Gifter.Models;
+using System;
 
 namespace Gifter.Controllers
 {
@@ -36,6 +37,23 @@ namespace Gifter.Controllers
         public IActionResult GetByUser(int id)
         {
             return Ok(_postRepository.GetByUserProfileId(id));
+        }
+
+        [HttpGet("search")]
+        public IActionResult Search(string q, bool sortDesc)
+        {
+            if (q == null)
+            {
+                return Ok(_postRepository.GetAll());
+            }
+
+            return Ok(_postRepository.Search(q, sortDesc));
+        }
+
+        [HttpGet("hottest")]
+        public IActionResult Filter(DateTime since, bool sortDesc)
+        {
+            return Ok(_postRepository.Filter(since, sortDesc));
         }
 
         [HttpPost]

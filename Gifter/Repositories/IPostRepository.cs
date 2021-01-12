@@ -1,4 +1,5 @@
 ﻿using Gifter.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Gifter.Repositories
@@ -11,5 +12,7 @@ namespace Gifter.Repositories
         void Add(Post post);
         void Update(Post post);
         void Delete(int id);
+        List<Post> Search(string criterion, bool sortDescending);
+        List<Post> Filter(DateTime dateSince, bool sortDescending);
     }
 }
