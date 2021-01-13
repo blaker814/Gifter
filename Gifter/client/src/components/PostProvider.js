@@ -6,35 +6,35 @@ export const PostProvider = (props) => {
     const [posts, setPosts] = useState([])
 
     const getPosts = () => {
-        return fetch(`http://localhost:8088/Posts?_sort=date&_order=desc`)
+        return fetch(`/api/post`)
             .then(res => res.json())
             .then(setPosts)
     }
 
-    const addPost = Post => {
-        return fetch("http://localhost:8088/Posts", {
+    const addPost = post => {
+        return fetch('/api/post', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(Post)
+            body: JSON.stringify(post)
         })
             .then(getPosts)
     }
 
     const deletePost = id => {
-        return fetch(`http://localhost:8088/Posts/${id}`, {
+        return fetch(`/api/post/${id}`, {
             method: "DELETE"
         })
     }
 
-    const updatePost = Post => {
-        return fetch(`http://localhost:8088/Posts/${Post.id}`, {
+    const updatePost = post => {
+        return fetch(`/api/post/${post.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(Post)
+            body: JSON.stringify(post)
         })
             .then(getPosts)
     }

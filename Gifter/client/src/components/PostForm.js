@@ -44,7 +44,7 @@ const PostForm = () => {
                 <Label for="caption">Caption</Label>
                 <Input type="text" name="caption" innerRef={caption} id="captionField" placeholder="Caption for image" />
             </FormGroup>
-            <Button color="primary" onClick={handleNewPost}>Add Post</Button>
+            <Button color="secondary" onClick={handleNewPost}>Add Post</Button>
         </Form>
     );
 };
