@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 
 const PostForm = () => {
@@ -6,16 +6,8 @@ const PostForm = () => {
     const imageUrl = useRef(null);
     const caption = useRef(null);
 
-    useEffect(() => {
-        fetch("/api/post");
-    }, [])
-
     const handleNewPost = event => {
         event.preventDefault();
-        console.log(event);
-        console.log(title);
-        console.log(imageUrl);
-        console.log(caption);
 
         const newPost = {
             title: title.current.value,
@@ -32,6 +24,10 @@ const PostForm = () => {
             },
             body: JSON.stringify(newPost)
         })
+
+        title.current.value = "";
+        imageUrl.current.value = "";
+        caption.current.value = "";
     }
 
     return (
