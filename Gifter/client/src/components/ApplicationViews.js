@@ -1,12 +1,22 @@
-// import React from "react"
-// import { PostProvider } from "./PostProvider"
+import React from "react";
+import { Switch, Route } from "react-router-dom";
+import PostList from "./PostList";
+import PostForm from "./PostForm";
 
-// export const ApplicationViews = (props) => {
-//     return (
-//         <>
-//             <PostProvider>
-//                 <PostForm />
-//             </PostProvider>
-//         </>
-//     )
-// }
+const ApplicationViews = () => {
+    return (
+        <Switch>
+            <Route path="/" exact>
+                <PostList />
+            </Route>
+
+            <Route path="/posts/add">
+                <PostForm />
+            </Route>
+
+            <Route path="/posts/:id">{/* TODO: Post Details Component */}</Route>
+        </Switch>
+    );
+};
+
+export default ApplicationViews;

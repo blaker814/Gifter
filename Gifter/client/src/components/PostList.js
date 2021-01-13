@@ -33,7 +33,7 @@ const PostList = () => {
         <>
             <div className="row justify-content-center">
                 <Input type="text"
-                    className="w-25"
+                    className="w-25 mt-4"
                     id="postSearch"
                     onKeyUp={
                         (keyEvent) => setSearchTerms(keyEvent.target.value)

@@ -1,13 +1,14 @@
 import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
-import PostList from "./components/PostList";
-import PostForm from "./components/PostForm";
+import ApplicationViews from "./components/ApplicationViews";
 
 function App() {
   return (
     <div className="App">
-      <PostForm />
-      <PostList />
+      <Router>
+        <ApplicationViews />
+      </Router>
     </div>
   );
 }
