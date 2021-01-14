@@ -3,23 +3,20 @@ import React, { useState, createContext } from "react"
 export const PostContext = createContext();
 
 export const PostProvider = (props) => {
-    const [posts, setPosts] = useState([])
 
     const getPosts = () => {
         return fetch(`/api/post`)
             .then(res => res.json())
-            .then(setPosts)
     }
 
-    // const getPostById = id => {
-    //     return fetch(`/api/post/${id}`)
-    //         .then(res => res.json())
-    // }
+    const getPostById = id => {
+        return fetch(`/api/post/${id}`)
+            .then(res => res.json())
+    }
 
     const getPostsByUserId = id => {
         return fetch(`/api/post/getbyuser/${id}`)
             .then(res => res.json())
-            .then(setPosts);
     }
 
     const addPost = post => {
@@ -51,7 +48,7 @@ export const PostProvider = (props) => {
 
     return (
         <PostContext.Provider value={{
-            posts, getPosts, getPostsByUserId, addPost, deletePost, updatePost
+            getPosts, getPostById, getPostsByUserId, addPost, deletePost, updatePost
         }}>
             {props.children}
         </PostContext.Provider>

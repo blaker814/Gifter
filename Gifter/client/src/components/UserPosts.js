@@ -1,15 +1,17 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { PostContext } from "./PostProvider";
 import Post from "./Post";
 
 const UserPosts = () => {
-    const { posts, getPostsByUserId } = useContext(PostContext);
+    const { getPostsByUserId } = useContext(PostContext);
+    const [posts, setPosts] = useState([]);
 
     const { userId } = useParams();
 
     useEffect(() => {
         getPostsByUserId(userId)
+            .then(setPosts);
     }, [])
 
     return (
