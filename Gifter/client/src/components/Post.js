@@ -1,9 +1,8 @@
 import React from "react";
 import { Card, CardImg, CardBody } from "reactstrap";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Post = ({ post }) => {
-    const history = useHistory();
     const { id, userId } = useParams();
     console.log(post)
     return (

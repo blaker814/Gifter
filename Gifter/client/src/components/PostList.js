@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useHistory, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Post from './Post';
-import { Button, Input } from "reactstrap";
-import PostForm from './PostForm';
+import { Input } from "reactstrap";
 import { PostContext } from './PostProvider';
 
 const PostList = () => {
