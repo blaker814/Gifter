@@ -14,17 +14,17 @@ const ApplicationViews = () => {
                     <PostList />
                 </Route>
 
-                <Route exact path="/posts/add">
+                <Route path="/posts/add">
                     <PostForm />
                 </Route>
 
 
-                <Route path="/posts/:id">
+                <Route path="/posts/:id(\d+)">
                     <PostDetails />
                 </Route>
 
 
-                <Route exact path="/users/:userId">
+                <Route path="/users/:userId">
                     <UserPosts />
                 </Route>
             </PostProvider>

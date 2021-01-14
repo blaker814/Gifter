@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
     Form,
     FormGroup,
@@ -8,24 +8,17 @@ import {
     Input,
     Button,
 } from "reactstrap";
+import { PostContext } from "./PostProvider"
 import { useHistory } from "react-router-dom";
 
 const PostForm = () => {
+    const { addPost } = useContext(PostContext);
     const [imageUrl, setImageUrl] = useState("");
     const [title, setTitle] = useState("");
     const [caption, setCaption] = useState("");
 
     // Use this hook to allow us to programatically redirect users
     const history = useHistory();
-
-    const addPost = (post) => {
-        return fetch('/api/post', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(post)
-        })
-            .then(res => res.json());
-    }
 
     const submit = (e) => {
         const post = {

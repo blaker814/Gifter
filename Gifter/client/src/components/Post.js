@@ -9,10 +9,10 @@ const Post = ({ post }) => {
         <Card className="m-4">
             <p className="text-left px-2">Posted by:
                 {userId ?
-                    ` ${post.userProfile.name}`
+                    ` ${post.userProfile?.name}`
                     :
                     <Link to={`/users/${post.userProfileId}`}>
-                        {` ${post.userProfile.name}`}
+                        {` ${post.userProfile?.name}`}
                     </Link>
                 }
             </p>
@@ -31,7 +31,7 @@ const Post = ({ post }) => {
                 <div className="text-left border p-2">
                     <h4>Comments</h4>
                     <hr />
-                    {post.comments.length > 0 ?
+                    {post.comments?.length > 0 ?
                         post.comments.map(comment => (
                             <p key={comment.id}><strong>{comment.userProfile?.name}</strong> - {comment.message}</p>)
                         ) :

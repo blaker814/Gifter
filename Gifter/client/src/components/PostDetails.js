@@ -9,8 +9,9 @@ const PostDetails = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        getPostById(id)
-            .then(setPost);
+        fetch(`/api/post/${id}`)
+            .then(res => res.json())
+            .then(post => setPost(post));
     }, []);
 
     if (!post) {

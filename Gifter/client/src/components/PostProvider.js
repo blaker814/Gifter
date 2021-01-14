@@ -11,10 +11,10 @@ export const PostProvider = (props) => {
             .then(setPosts)
     }
 
-    const getPostById = id => {
-        return fetch(`/api/post/${id}`)
-            .then(res => res.json())
-    }
+    // const getPostById = id => {
+    //     return fetch(`/api/post/${id}`)
+    //         .then(res => res.json())
+    // }
 
     const getPostsByUserId = id => {
         return fetch(`/api/post/getbyuser/${id}`)
@@ -30,7 +30,6 @@ export const PostProvider = (props) => {
             },
             body: JSON.stringify(post)
         })
-            .then(getPosts)
     }
 
     const deletePost = id => {
@@ -52,7 +51,7 @@ export const PostProvider = (props) => {
 
     return (
         <PostContext.Provider value={{
-            posts, getPosts, getPostById, getPostsByUserId, addPost, deletePost, updatePost
+            posts, getPosts, getPostsByUserId, addPost, deletePost, updatePost
         }}>
             {props.children}
         </PostContext.Provider>
