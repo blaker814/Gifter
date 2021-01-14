@@ -29,6 +29,7 @@ namespace Gifter.Repositories
             return _context.Post
                 .Include(p => p.UserProfile)
                 .Include(p => p.Comments)
+                .ThenInclude(c => c.UserProfile)
                 .FirstOrDefault(p => p.Id == id);
         }
 

@@ -1,6 +1,6 @@
 import React, { useState, createContext } from "react"
 
-export const PostContext = createContext()
+export const PostContext = createContext();
 
 export const PostProvider = (props) => {
     const [posts, setPosts] = useState([])
@@ -9,6 +9,17 @@ export const PostProvider = (props) => {
         return fetch(`/api/post`)
             .then(res => res.json())
             .then(setPosts)
+    }
+
+    const getPostById = id => {
+        return fetch(`/api/post/${id}`)
+            .then(res => res.json())
+    }
+
+    const getPostsByUserId = id => {
+        return fetch(`/api/post/getbyuser/${id}`)
+            .then(res => res.json())
+            .then(setPosts);
     }
 
     const addPost = post => {
@@ -41,7 +52,7 @@ export const PostProvider = (props) => {
 
     return (
         <PostContext.Provider value={{
-            posts, getPosts, addPost, deletePost, updatePost
+            posts, getPosts, getPostById, getPostsByUserId, addPost, deletePost, updatePost
         }}>
             {props.children}
         </PostContext.Provider>

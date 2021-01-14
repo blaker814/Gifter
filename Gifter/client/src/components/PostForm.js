@@ -1,51 +1,81 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import React, { useState } from "react";
+import {
+    Form,
+    FormGroup,
+    Card,
+    CardBody,
+    Label,
+    Input,
+    Button,
+} from "reactstrap";
+import { useHistory } from "react-router-dom";
 
 const PostForm = () => {
-    const title = useRef(null);
-    const imageUrl = useRef(null);
-    const caption = useRef(null);
+    const [imageUrl, setImageUrl] = useState("");
+    const [title, setTitle] = useState("");
+    const [caption, setCaption] = useState("");
 
-    const handleNewPost = event => {
-        event.preventDefault();
+    // Use this hook to allow us to programatically redirect users
+    const history = useHistory();
 
-        const newPost = {
-            title: title.current.value,
-            imageUrl: imageUrl.current.value,
-            caption: caption.current.value,
-            userProfileId: 1,
-            dateCreated: new Date(Date.now()).toDateString("en-US")
-        }
-
-        fetch("/api/post", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(newPost)
+    const addPost = (post) => {
+        return fetch('/api/post', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(post)
         })
-
-        title.current.value = "";
-        imageUrl.current.value = "";
-        caption.current.value = "";
+            .then(res => res.json());
     }
 
+    const submit = (e) => {
+        const post = {
+            imageUrl,
+            title,
+            caption,
+            userProfileId: 1,
+            dateCreated: new Date(Date.now()).toDateString()
+        };
+
+        addPost(post).then((p) => {
+            // Navigate the user back to the home route
+            history.push("/");
+        });
+    };
+
     return (
-        <Form className="container p-5 text-left w-50">
-            <FormGroup>
-                <Label for="title">Title</Label>
-                <Input type="text" name="title" innerRef={title} id="titleField" placeholder="Title of post" required autoFocus />
-            </FormGroup>
-            <FormGroup>
-                <Label for="imageUrl">Image Url</Label>
-                <Input type="url" name="imageUrl" innerRef={imageUrl} id="imageUrlField" placeholder="URL for image" required />
-            </FormGroup>
-            <FormGroup>
-                <Label for="caption">Caption</Label>
-                <Input type="text" name="caption" innerRef={caption} id="captionField" placeholder="Caption for image" />
-            </FormGroup>
-            <Button color="secondary" onClick={handleNewPost}>Add Post</Button>
-        </Form>
+        <div className="container pt-4">
+            <div className="row justify-content-center">
+                <Card className="col-sm-12 col-lg-6">
+                    <CardBody>
+                        <h2>New Post</h2>
+                        <hr />
+                        <Form className="mt-4">
+                            <FormGroup>
+                                <Label for="imageUrl">Gif URL</Label>
+                                <Input
+                                    id="imageUrl"
+                                    onChange={(e) => setImageUrl(e.target.value)}
+                                    placeholder="URL for image"
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="title">Title</Label>
+                                <Input id="title" onChange={(e) => setTitle(e.target.value)} placeholder="Title for post" />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="caption">Caption</Label>
+                                <Input
+                                    id="caption"
+                                    onChange={(e) => setCaption(e.target.value)}
+                                    placeholder="Caption for image"
+                                />
+                            </FormGroup>
+                        </Form>
+                        <Button color="info" onClick={submit}>SUBMIT</Button>
+                    </CardBody>
+                </Card>
+            </div>
+        </div>
     );
 };
 
