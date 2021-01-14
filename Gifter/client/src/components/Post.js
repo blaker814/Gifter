@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 
 const Post = ({ post }) => {
     const { id, userId } = useParams();
-    console.log(post)
+
     return (
         <Card className="m-4">
             <p className="text-left px-2">Posted by:
