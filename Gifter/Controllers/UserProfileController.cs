@@ -1,10 +1,9 @@
-﻿using Gifter.Models;
-using Gifter.Repositories;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Gifter.Data;
+using Gifter.Models;
+using Gifter.Repositories;
 
 namespace Gifter.Controllers
 {
@@ -13,52 +12,25 @@ namespace Gifter.Controllers
     public class UserProfileController : ControllerBase
     {
         private readonly IUserProfileRepository _userProfileRepository;
-        public UserProfileController(IUserProfileRepository userProfileRepository)
+        public UserProfileController(ApplicationDbContext context)
         {
-            _userProfileRepository = userProfileRepository;
+            _userProfileRepository = new UserProfileRepository(context);
         }
 
-        [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok(_userProfileRepository.GetAll());
-        }
 
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        [HttpGet("{firebaseUserId}")]
+        public IActionResult GetUserProfile(string firebaseUserId)
         {
-            var userProfile = _userProfileRepository.GetById(id);
-            if (userProfile == null)
-            {
-                return NotFound();
-            }
-            return Ok(userProfile);
+            return Ok(_userProfileRepository.GetByFirebaseUserId(firebaseUserId));
         }
 
         [HttpPost]
-        public IActionResult UserProfile(UserProfile userProfile)
+        public IActionResult Post(UserProfile userProfile)
         {
+            userProfile.DateCreated = DateTime.Now;
+            //userProfile.UserTypeId = UserType.AUTHOR_ID;
             _userProfileRepository.Add(userProfile);
             return Ok(userProfile);
-        }
-
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, UserProfile userProfile)
-        {
-            if (id != userProfile.Id)
-            {
-                return BadRequest();
-            }
-
-            _userProfileRepository.Update(userProfile);
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            _userProfileRepository.Delete(id);
-            return NoContent();
         }
     }
 }

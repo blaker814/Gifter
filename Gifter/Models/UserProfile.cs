@@ -25,5 +25,7 @@ namespace Gifter.Models
         [Required]
         public DateTime DateCreated { get; set; }
 
+        public string FirebaseUserId { get; set; }
+
     }
 }

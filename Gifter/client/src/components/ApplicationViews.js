@@ -5,10 +5,23 @@ import PostForm from "./PostForm";
 import PostDetails from "./PostDetails";
 import UserPosts from "./UserPosts";
 import { PostProvider } from "./PostProvider";
+import Login from "./Login";
+import Register from "./Register";
+import { UserProfileProvider } from "../providers/UserProfileProvider";
 
 const ApplicationViews = () => {
     return (
         <Switch>
+            <UserProfileProvider>
+                <Route path="/login">
+                    <Login />
+                </Route>
+
+                <Route path="/register">
+                    <Register />
+                </Route>
+            </UserProfileProvider>
+
             <PostProvider>
                 <Route exact path="/" >
                     <PostList />

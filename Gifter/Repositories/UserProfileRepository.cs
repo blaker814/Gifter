@@ -17,32 +17,16 @@ namespace Gifter.Repositories
             _context = context;
         }
 
-        public List<UserProfile> GetAll()
+        public UserProfile GetByFirebaseUserId(string firebaseUserId)
         {
-            return _context.UserProfile.ToList();
-        }
-
-        public UserProfile GetById(int id)
-        {
-            return _context.UserProfile.FirstOrDefault(p => p.Id == id);
+            return _context.UserProfile
+                    //.Include(up => up.UserType)
+                    .FirstOrDefault(up => up.FirebaseUserId == firebaseUserId);
         }
 
         public void Add(UserProfile userProfile)
         {
             _context.Add(userProfile);
-            _context.SaveChanges();
-        }
-
-        public void Update(UserProfile userProfile)
-        {
-            _context.Entry(userProfile).State = EntityState.Modified;
-            _context.SaveChanges();
-        }
-
-        public void Delete(int id)
-        {
-            var userProfile = GetById(id);
-            _context.UserProfile.Remove(userProfile);
             _context.SaveChanges();
         }
     }
