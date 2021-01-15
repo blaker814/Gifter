@@ -61,7 +61,6 @@ namespace Gifter.Controllers
         [HttpPost]
         public IActionResult Post(Post post)
         {
-            post.UserProfileId = JSON.Parse(localStorage.getItem('userProfile'));
             post.DateCreated = DateTime.Now;
             _postRepository.Add(post);
             return Ok(post);

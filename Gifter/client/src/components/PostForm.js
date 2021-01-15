@@ -17,6 +17,7 @@ const PostForm = () => {
     const [title, setTitle] = useState("");
     const [caption, setCaption] = useState("");
 
+    const user = JSON.parse(localStorage.getItem('userProfile'));
     // Use this hook to allow us to programatically redirect users
     const history = useHistory();
 
@@ -25,6 +26,7 @@ const PostForm = () => {
             imageUrl,
             title,
             caption,
+            userProfileId: user.id
         };
 
         getToken().then((token) =>
