@@ -20,7 +20,6 @@ const ApplicationViews = () => {
                     <Register />
                 </Route>
 
-
                 <Route exact path="/" >
                     <PostList />
                 </Route>

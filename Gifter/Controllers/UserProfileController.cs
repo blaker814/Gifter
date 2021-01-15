@@ -14,12 +14,6 @@ namespace Gifter.Controllers
     [ApiController]
     public class UserProfileController : ControllerBase
     {
-        private UserProfile GetCurrentUserProfile()
-        {
-            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
-        }
-
         private readonly IUserProfileRepository _userProfileRepository;
         public UserProfileController(ApplicationDbContext context)
         {

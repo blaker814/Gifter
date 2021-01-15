@@ -4,6 +4,7 @@ using Gifter.Repositories;
 using Gifter.Models;
 using System;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Gifter.Controllers
 {
@@ -12,10 +13,18 @@ namespace Gifter.Controllers
     [ApiController]
     public class PostController : ControllerBase
     {
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+        }
+
         private readonly IPostRepository _postRepository;
-        public PostController(IPostRepository postRepository)
+        private readonly IUserProfileRepository _userProfileRepository;
+        public PostController(IPostRepository postRepository, IUserProfileRepository userProfileRepo)
         {
             _postRepository = postRepository;
+            _userProfileRepository = userProfileRepo;
         }
 
         [HttpGet]
@@ -61,6 +70,8 @@ namespace Gifter.Controllers
         [HttpPost]
         public IActionResult Post(Post post)
         {
+            var user = GetCurrentUserProfile();
+            post.UserProfileId = user.Id;
             post.DateCreated = DateTime.Now;
             _postRepository.Add(post);
             return Ok(post);
