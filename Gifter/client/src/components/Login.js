@@ -14,11 +14,11 @@ export default function Login() {
         e.preventDefault();
         login(email, password)
             .then(() => history.push("/"))
-            .catch(() => alert("Invalid email or password"));
+        // .catch(() => alert("Invalid email or password"));
     };
 
     return (
-        <Form onSubmit={loginSubmit}>
+        <Form className="container" onSubmit={loginSubmit}>
             <fieldset>
                 <FormGroup>
                     <Label for="email">Email</Label>

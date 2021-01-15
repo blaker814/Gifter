@@ -26,7 +26,7 @@ export default function Register() {
     };
 
     return (
-        <Form onSubmit={registerClick}>
+        <Form className="container" onSubmit={registerClick}>
             <fieldset>
                 <FormGroup>
                     <Label htmlFor="name">First Name</Label>

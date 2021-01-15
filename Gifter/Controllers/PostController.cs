@@ -3,9 +3,11 @@ using Gifter.Data;
 using Gifter.Repositories;
 using Gifter.Models;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gifter.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PostController : ControllerBase
@@ -59,6 +61,8 @@ namespace Gifter.Controllers
         [HttpPost]
         public IActionResult Post(Post post)
         {
+            post.UserProfileId = JSON.Parse(localStorage.getItem('userProfile'));
+            post.DateCreated = DateTime.Now;
             _postRepository.Add(post);
             return Ok(post);
         }

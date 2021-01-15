@@ -1,16 +1,22 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Post from './Post';
-import { Input } from "reactstrap";
-import { PostContext } from './PostProvider';
 import PostSearch from './PostSearch';
+import { UserProfileContext } from "../providers/UserProfileProvider";
 
 const PostList = () => {
-    const { getPosts } = useContext(PostContext);
+    const { getToken } = useContext(UserProfileContext);
     const [filtered, setFiltered] = useState([]);
 
     useEffect(() => {
-        getPosts()
-            .then(setFiltered);
+        getToken().then((token) =>
+            fetch("/api/post", {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then(res => res.json())
+                .then(setFiltered));
     }, []);
 
     return (

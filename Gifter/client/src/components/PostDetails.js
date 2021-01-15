@@ -1,16 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Post from "./Post";
-import { PostContext } from "./PostProvider";
+import { UserProfileContext } from "../providers/UserProfileProvider"
 
 const PostDetails = () => {
-    const { getPostById } = useContext(PostContext);
+    const { getToken } = useContext(UserProfileContext);
     const [post, setPost] = useState();
     const { id } = useParams();
 
     useEffect(() => {
-        getPostById(id)
-            .then(setPost);
+        getToken().then((token) =>
+            fetch(`/api/post/${id}`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then(res => res.json())
+                .then(setPost));
     }, []);
 
     if (!post) {

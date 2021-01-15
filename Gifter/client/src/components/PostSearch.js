@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Form, Input } from 'reactstrap';
+import { UserProfileContext } from "../providers/UserProfileProvider";
 
 const PostSearch = ({ onSearch }) => {
+    const { getToken } = useContext(UserProfileContext);
     const [searchTerms, setSearchTerms] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch(`/api/post/search?q=${searchTerms}`)
-            .then(res => res.json())
-            .then(searchResults => onSearch(searchResults));
+        getToken().then((token) =>
+            fetch(`/api/post/search?q=${searchTerms}`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}` // The token gets added to the Authorization header
+                }
+            })
+                .then(res => res.json())
+                .then(searchResults => onSearch(searchResults)));
         setSearchTerms("");
     }
 

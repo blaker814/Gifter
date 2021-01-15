@@ -8,11 +8,11 @@ import {
     Input,
     Button,
 } from "reactstrap";
-import { PostContext } from "./PostProvider"
 import { useHistory } from "react-router-dom";
+import { UserProfileContext } from "../providers/UserProfileProvider";
 
 const PostForm = () => {
-    const { addPost } = useContext(PostContext);
+    const { getToken } = useContext(UserProfileContext);
     const [imageUrl, setImageUrl] = useState("");
     const [title, setTitle] = useState("");
     const [caption, setCaption] = useState("");
@@ -25,14 +25,20 @@ const PostForm = () => {
             imageUrl,
             title,
             caption,
-            userProfileId: 1,
-            dateCreated: new Date(Date.now()).toDateString()
         };
 
-        addPost(post).then((p) => {
-            // Navigate the user back to the home route
-            history.push("/");
-        });
+        getToken().then((token) =>
+            fetch("/api/post", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(post)
+            }).then((p) => {
+                // Navigate the user back to the home route
+                history.push("/");
+            }));
     };
 
     return (

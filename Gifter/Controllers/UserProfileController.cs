@@ -4,13 +4,22 @@ using System;
 using Gifter.Data;
 using Gifter.Models;
 using Gifter.Repositories;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gifter.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserProfileController : ControllerBase
     {
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+        }
+
         private readonly IUserProfileRepository _userProfileRepository;
         public UserProfileController(ApplicationDbContext context)
         {
@@ -28,7 +37,6 @@ namespace Gifter.Controllers
         public IActionResult Post(UserProfile userProfile)
         {
             userProfile.DateCreated = DateTime.Now;
-            //userProfile.UserTypeId = UserType.AUTHOR_ID;
             _userProfileRepository.Add(userProfile);
             return Ok(userProfile);
         }

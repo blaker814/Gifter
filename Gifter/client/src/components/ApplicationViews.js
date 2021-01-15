@@ -4,7 +4,6 @@ import PostList from "./PostList";
 import PostForm from "./PostForm";
 import PostDetails from "./PostDetails";
 import UserPosts from "./UserPosts";
-import { PostProvider } from "./PostProvider";
 import Login from "./Login";
 import Register from "./Register";
 import { UserProfileProvider } from "../providers/UserProfileProvider";
@@ -20,9 +19,8 @@ const ApplicationViews = () => {
                 <Route path="/register">
                     <Register />
                 </Route>
-            </UserProfileProvider>
 
-            <PostProvider>
+
                 <Route exact path="/" >
                     <PostList />
                 </Route>
@@ -40,7 +38,7 @@ const ApplicationViews = () => {
                 <Route path="/users/:userId">
                     <UserPosts />
                 </Route>
-            </PostProvider>
+            </UserProfileProvider>
         </Switch>
     );
 };
