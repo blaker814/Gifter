@@ -29,7 +29,7 @@ export default function Register() {
         <Form className="container" onSubmit={registerClick}>
             <fieldset>
                 <FormGroup>
-                    <Label htmlFor="name">First Name</Label>
+                    <Label htmlFor="name">Name</Label>
                     <Input id="name" type="text" onChange={e => setName(e.target.value)} />
                 </FormGroup>
                 <FormGroup>
