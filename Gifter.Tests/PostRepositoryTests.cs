@@ -2,6 +2,7 @@
 using Gifter.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Xunit;
 
@@ -52,7 +53,7 @@ namespace Gifter.Tests
             var repo = new PostRepository(_context);
             var results = repo.Search("", true);
 
-            Assert.Equal(3, results.Count);
+            Assert.Equal(4, results.Count);
             Assert.Equal(mostRecentTitle, results[0].Title);
         }
 
@@ -63,8 +64,8 @@ namespace Gifter.Tests
             var repo = new PostRepository(_context);
             var results = repo.Search("", false);
 
-            Assert.Equal(3, results.Count);
-            Assert.Equal(mostRecentTitle, results[2].Title);
+            Assert.Equal(4, results.Count);
+            Assert.Equal(mostRecentTitle, results[3].Title);
         }
 
         [Fact]
@@ -80,6 +81,45 @@ namespace Gifter.Tests
             var result = repo.GetById(postIdWithComment);
 
             Assert.Null(result);
+        }
+
+
+        [Fact]
+        public void Get_Posts_By_Profile_Id_Returns_Posts_In_Alphabetical_Order()
+        {
+            var userProfileId = 2;
+            var repo = new PostRepository(_context);
+
+            // Now attempt to get it
+            var results = repo.GetByUserProfileId(userProfileId);
+
+            Assert.Equal(2, results.Count);
+            Assert.Equal("Bowling", results[0].Title);
+            Assert.Equal("El Duderino", results[1].Title);
+        }
+
+        [Fact]
+        public void Get_Posts_By_Profile_Id_Returns_Only_That_Users_Posts()
+        {
+            var userProfileId = 1;
+            var repo = new PostRepository(_context);
+
+            // Now attempt to get it
+            var results = repo.GetByUserProfileId(userProfileId);
+
+            Assert.True(!results.Any(result => result.UserProfile.Name != "Walter"));
+        }
+
+        [Fact]
+        public void Get_Posts_By_Profile_Id_Returns_Empty_List_When_Id_Does_Not_Exist()
+        {
+            var userProfileId = 1000;
+            var repo = new PostRepository(_context);
+
+            // Now attempt to get it
+            var results = repo.GetByUserProfileId(userProfileId);
+
+            Assert.Empty(results);
         }
 
         // Add sample data
@@ -140,6 +180,15 @@ namespace Gifter.Tests
                 DateCreated = DateTime.Now - TimeSpan.FromDays(12),
             };
 
+            var post4 = new Post()
+            {
+                Caption = "Yeah man",
+                Title = "Bowling",
+                ImageUrl = "http://foo.gif",
+                UserProfile = user2,
+                DateCreated = DateTime.Now - TimeSpan.FromDays(13),
+            };
+
             var comment1 = new Comment()
             {
                 Post = post2,
@@ -157,6 +206,7 @@ namespace Gifter.Tests
             _context.Add(post1);
             _context.Add(post2);
             _context.Add(post3);
+            _context.Add(post4);
             _context.Add(comment1);
             _context.Add(comment2);
             _context.SaveChanges();
